@@ -141,10 +141,10 @@ enum
 	tic_color_orange,		// 9
 	tic_color_light_blue,	// 10
 	tic_color_light_green,	// 11
-	tic_color_peach,		// 12
-	tic_color_cyan,			// 13
-	tic_color_yellow,		// 14
-	tic_color_white,		// 15
+	tic_color_white,		// 12
+	tic_color_peach,		// 13
+	tic_color_cyan,			// 14
+	tic_color_yellow,		// 15
 } tic_color;
 
 typedef enum
