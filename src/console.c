@@ -2698,7 +2698,7 @@ static NetVersion netVersionRequest()
 	{
 		.major = TIC_VERSION_MAJOR,
 		.minor = TIC_VERSION_MINOR,
-		.patch = TIC_VERSION_PATCH,
+		.patch = TIC_VERSION_REVISION,
 	};
 
 	s32 size = 0;
@@ -2737,7 +2737,7 @@ static void checkNewVersion(Console* console)
 
 	if((version.major > TIC_VERSION_MAJOR) ||
 		(version.major == TIC_VERSION_MAJOR && version.minor > TIC_VERSION_MINOR) ||
-		(version.major == TIC_VERSION_MAJOR && version.minor == TIC_VERSION_MINOR && version.patch > TIC_VERSION_PATCH))
+		(version.major == TIC_VERSION_MAJOR && version.minor == TIC_VERSION_MINOR && version.patch > TIC_VERSION_REVISION))
 	{
 		char msg[FILENAME_MAX] = {0};
 		sprintf(msg, "\n A new version %i.%i.%i is available.\n", version.major, version.minor, version.patch);

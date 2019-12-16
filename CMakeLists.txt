@@ -1,7 +1,40 @@
 cmake_minimum_required(VERSION 3.3)
 
-project(TIC-80 C CXX)
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 80)
+set(VERSION_REVISION 0)
+
+find_package(Git)
+if(Git_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} status
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        ERROR_VARIABLE RESULT_STRING
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    string(LENGTH "${RESULT_STRING}" LENGTH_RESULT_STRING)
+
+    if(${LENGTH_RESULT_STRING} EQUAL 0)
+        
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} rev-list HEAD --count
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE VERSION_REVISION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
+    endif()
+endif()
+
+message("VERSION_REVISION: ${VERSION_REVISION}")
+
+project(TIC-80 VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION} LANGUAGES C CXX)
 message("Building for target : ${CMAKE_SYSTEM_NAME}")
+
+message("PROJECT_VERSION: ${PROJECT_VERSION}")
+
+configure_file("${PROJECT_SOURCE_DIR}/version.h.in" "${CMAKE_CURRENT_BINARY_DIR}/version.h")
 
 if(ANDROID OR EMSCRIPTEN)
 	set(BUILD_SOKOL_DEFAULT OFF)
@@ -275,13 +308,17 @@ set(TIC80CORE_SRC
 
 add_library(tic80core STATIC ${TIC80CORE_SRC})
 
-target_include_directories(tic80core PRIVATE ${CMAKE_SOURCE_DIR}/include)
-target_include_directories(tic80core PRIVATE ${THIRDPARTY_DIR}/blip-buf)
-target_include_directories(tic80core PRIVATE ${THIRDPARTY_DIR}/duktape/src)
-target_include_directories(tic80core PRIVATE ${THIRDPARTY_DIR}/wren/src/include)
-target_include_directories(tic80core PRIVATE ${THIRDPARTY_DIR}/squirrel/include)
-target_include_directories(tic80core PRIVATE ${THIRDPARTY_DIR}/moonscript)
-target_include_directories(tic80core PRIVATE ${THIRDPARTY_DIR}/fennel)
+target_include_directories(tic80core 
+	PRIVATE 
+		${CMAKE_SOURCE_DIR}/include
+		${THIRDPARTY_DIR}/blip-buf
+		${THIRDPARTY_DIR}/duktape/src
+		${THIRDPARTY_DIR}/wren/src/include
+		${THIRDPARTY_DIR}/squirrel/include
+		${THIRDPARTY_DIR}/moonscript
+		${THIRDPARTY_DIR}/fennel
+	PUBLIC 
+		${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(tic80core lua lpeg wren squirrel giflib)
 
@@ -410,8 +447,9 @@ if(BUILD_LIBRETRO)
 		${LIBRETRO_SRC}
 	)
 
-	target_include_directories(tic80_libretro PRIVATE ${CMAKE_SOURCE_DIR}/include)
-	target_include_directories(tic80_libretro PRIVATE ${TIC80CORE_DIR})
+	target_include_directories(tic80_libretro PRIVATE 
+		${CMAKE_SOURCE_DIR}/include
+		${TIC80CORE_DIR})
 
 	if(MINGW)
 		target_link_libraries(tic80_libretro mingw32)
@@ -627,9 +665,9 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 		target_include_directories(${TIC80_OUTPUT}lib PRIVATE ${THIRDPARTY_DIR}/dirent/include)
 	endif()
 
-	target_include_directories(${TIC80_OUTPUT}lib PRIVATE ${CMAKE_SOURCE_DIR}/include)
-	target_include_directories(${TIC80_OUTPUT}lib PRIVATE ${THIRDPARTY_DIR}/lua-5.3.1/src)
-	target_include_directories(${TIC80_OUTPUT}lib PRIVATE ${THIRDPARTY_DIR}/curl/include)
+	target_include_directories(${TIC80_OUTPUT}lib PRIVATE 
+		${CMAKE_SOURCE_DIR}/include
+		${THIRDPARTY_DIR}/curl/include)
 
 	target_link_libraries(${TIC80_OUTPUT}lib tic80core zlib libcurl)
 
@@ -656,6 +694,7 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 
 	if(WIN32)
 		
+		configure_file("${PROJECT_SOURCE_DIR}/build/windows/tic80.rc.in" "${CMAKE_CURRENT_BINARY_DIR}/windows/tic80.rc")
 		set(TIC80_SRC ${TIC80_SRC} build/windows/tic80.rc)
 
 		# Debug build is a console app.
@@ -686,11 +725,11 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 		add_executable(${TIC80_OUTPUT} ${TIC80_SRC})
 	endif()
 
-	target_include_directories(${TIC80_OUTPUT} PRIVATE ${CMAKE_SOURCE_DIR}/include)
-	target_include_directories(${TIC80_OUTPUT} PRIVATE ${CMAKE_SOURCE_DIR}/src)
-	target_include_directories(${TIC80_OUTPUT} PRIVATE ${THIRDPARTY_DIR}/sdl2/include)
-
-	target_include_directories(${TIC80_OUTPUT} PRIVATE ${THIRDPARTY_DIR}/sdl-gpu/include)
+	target_include_directories(${TIC80_OUTPUT} PRIVATE 
+		${CMAKE_SOURCE_DIR}/include
+		${CMAKE_SOURCE_DIR}/src
+		${THIRDPARTY_DIR}/sdl2/include
+		${THIRDPARTY_DIR}/sdl-gpu/include)
 
 	if(MINGW)
 		target_link_libraries(${TIC80_OUTPUT} mingw32)
@@ -751,11 +790,11 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 		add_executable(${TIC80_OUTPUT}-sokol ${TIC80_SRC})
 	endif()
 
-	target_include_directories(${TIC80_OUTPUT}-sokol PRIVATE ${CMAKE_SOURCE_DIR}/include)
-	target_include_directories(${TIC80_OUTPUT}-sokol PRIVATE ${CMAKE_SOURCE_DIR}/src)
-	target_include_directories(${TIC80_OUTPUT}-sokol PRIVATE ${THIRDPARTY_DIR}/sdl2/include)
-
-	target_include_directories(${TIC80_OUTPUT}-sokol PRIVATE ${THIRDPARTY_DIR}/sokol)
+	target_include_directories(${TIC80_OUTPUT}-sokol PRIVATE 
+		${CMAKE_SOURCE_DIR}/include
+		${CMAKE_SOURCE_DIR}/src
+		${THIRDPARTY_DIR}/sdl2/include
+		${THIRDPARTY_DIR}/sokol)
 
 	if(MINGW)
 		target_link_libraries(${TIC80_OUTPUT}-sokol mingw32)
