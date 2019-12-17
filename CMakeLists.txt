@@ -707,10 +707,9 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 	elseif(APPLE)
 		
 		add_executable(${TIC80_OUTPUT} MACOSX_BUNDLE ${TIC80_SRC} ${CMAKE_SOURCE_DIR}/build/macosx/tic80.icns)
-		
 		set_source_files_properties(${CMAKE_SOURCE_DIR}/build/macosx/tic80.icns PROPERTIES MACOSX_PACKAGE_LOCATION RESOURCES)
-		
-		set_target_properties(${TIC80_OUTPUT} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/build/macosx/${TIC80_OUTPUT}.plist)
+		configure_file("${CMAKE_SOURCE_DIR}/build/macosx/${TIC80_OUTPUT}.plist.in" "${CMAKE_CURRENT_BINARY_DIR}/macosx/${TIC80_OUTPUT}.plist")
+		set_target_properties(${TIC80_OUTPUT} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/macosx/${TIC80_OUTPUT}.plist)
 
 	elseif(ANDROID)
 
@@ -783,7 +782,8 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 		add_executable(${TIC80_OUTPUT}-sokol MACOSX_BUNDLE ${TIC80_SRC} ${CMAKE_SOURCE_DIR}/build/macosx/tic80.icns)
 	
 		set_source_files_properties(${CMAKE_SOURCE_DIR}/build/macosx/tic80.icns PROPERTIES MACOSX_PACKAGE_LOCATION RESOURCES)
-		set_target_properties(${TIC80_OUTPUT}-sokol PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/build/macosx/${TIC80_OUTPUT}-sokol.plist)
+		configure_file("${CMAKE_SOURCE_DIR}/build/macosx/${TIC80_OUTPUT}-sokol.plist.in" "${CMAKE_CURRENT_BINARY_DIR}/macosx/${TIC80_OUTPUT}-sokol.plist")
+		set_target_properties(${TIC80_OUTPUT}-sokol PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/macosx/${TIC80_OUTPUT}-sokol.plist)
 	
 	else()
 		add_executable(${TIC80_OUTPUT}-sokol ${TIC80_SRC})
