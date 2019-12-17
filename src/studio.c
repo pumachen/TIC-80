@@ -506,8 +506,8 @@ static void drawExtrabar(tic_mem* tic)
 	{
 		tic_rect rect = {x + i*Size, y, Size, Size};
 
-		u8 bgcolor = (tic_color_white);
-		u8 color = (tic_color_light_blue);
+		u8 bgcolor = (tic_color_12);
+		u8 color = (tic_color_10);
 
 		if(checkMousePos(&rect))
 		{
@@ -519,7 +519,7 @@ static void drawExtrabar(tic_mem* tic)
 			if(checkMouseDown(&rect, tic_mouse_left))
 			{
 				bgcolor = color;
-				color = (tic_color_white);
+				color = (tic_color_12);
 			}
 			else if(checkMouseClick(&rect, tic_mouse_left))
 			{
@@ -588,7 +588,7 @@ static void drawBankIcon(s32 x, s32 y)
 
 	if(impl.bank.show)
 	{
-		drawBitIcon(x, y, Icon, tic_color_red);
+		drawBitIcon(x, y, Icon, tic_color_6);
 
 		enum{Size = TOOLBAR_SIZE};
 
@@ -611,9 +611,9 @@ static void drawBankIcon(s32 x, s32 y)
 			}
 
 			if(i == impl.bank.indexes[mode])
-				tic->api.rect(tic, rect.x, rect.y, rect.w, rect.h, tic_color_red);
+				tic->api.rect(tic, rect.x, rect.y, rect.w, rect.h, tic_color_6);
 
-			tic->api.draw_char(tic, '0' + i, rect.x+1, rect.y+1, i == impl.bank.indexes[mode] ? tic_color_white : over ? tic_color_red : tic_color_peach, false);
+			tic->api.draw_char(tic, '0' + i, rect.x+1, rect.y+1, i == impl.bank.indexes[mode] ? tic_color_12 : over ? tic_color_6 : tic_color_13, false);
 
 		}
 
@@ -649,12 +649,12 @@ static void drawBankIcon(s32 x, s32 y)
 				}
 			}
 
-			drawBitIcon(rect.x, rect.y, PinIcon, impl.bank.chained ? tic_color_black : over ? tic_color_dark_gray : tic_color_light_blue);
+			drawBitIcon(rect.x, rect.y, PinIcon, impl.bank.chained ? tic_color_0 : over ? tic_color_3 : tic_color_10);
 		}
 	}
 	else
 	{
-		drawBitIcon(x, y, Icon, over ? tic_color_red : tic_color_peach);
+		drawBitIcon(x, y, Icon, over ? tic_color_6 : tic_color_13);
 	}
 }
 
@@ -663,7 +663,7 @@ static void drawBankIcon(s32 x, s32 y)
 void drawToolbar(tic_mem* tic, u8 color, bool bg)
 {
 	if(bg)
-		impl.studio.tic->api.rect(tic, 0, 0, TIC80_WIDTH, TOOLBAR_SIZE, (tic_color_white));
+		impl.studio.tic->api.rect(tic, 0, 0, TIC80_WIDTH, TOOLBAR_SIZE, (tic_color_12));
 
 	static const u8 TabIcon[] =
 	{
@@ -755,9 +755,9 @@ void drawToolbar(tic_mem* tic, u8 color, bool bg)
 			drawBitIcon(i * Size, 0, TabIcon, color);
 
 		if(mode == i)
-			drawBitIcon(i * Size, 1, Icons + i * BITS_IN_BYTE, tic_color_black);
+			drawBitIcon(i * Size, 1, Icons + i * BITS_IN_BYTE, tic_color_0);
 
-		drawBitIcon(i * Size, 0, Icons + i * BITS_IN_BYTE, mode == i ? (tic_color_white) : (over ? (tic_color_dark_gray) : (tic_color_light_blue)));
+		drawBitIcon(i * Size, 0, Icons + i * BITS_IN_BYTE, mode == i ? (tic_color_12) : (over ? (tic_color_3) : (tic_color_10)));
 	}
 
 	if(mode >= 0) drawExtrabar(tic);
@@ -782,11 +782,11 @@ void drawToolbar(tic_mem* tic, u8 color, bool bg)
 	{
 		if(strlen(impl.tooltip.text))
 		{
-			impl.studio.tic->api.text(tic, impl.tooltip.text, TextOffset, 1, (tic_color_black), false);
+			impl.studio.tic->api.text(tic, impl.tooltip.text, TextOffset, 1, (tic_color_0), false);
 		}
 		else
 		{
-			impl.studio.tic->api.text(tic, Names[mode], TextOffset, 1, (tic_color_dark_gray), false);
+			impl.studio.tic->api.text(tic, Names[mode], TextOffset, 1, (tic_color_3), false);
 		}
 	}
 }
@@ -1499,7 +1499,7 @@ static void drawDesyncLabel(u32* frame)
 		enum{sx = TIC80_WIDTH-24, sy = 8, Cols = sizeof DesyncLabel[0]*BITS_IN_BYTE, Rows = COUNT_OF(DesyncLabel)};
 
 		const u32* pal = tic_palette_blit(&impl.config->cart.bank0.palette);
-		const u32* color = &pal[tic_color_red];
+		const u32* color = &pal[tic_color_6];
 
 		for(s32 y = 0; y < Rows; y++)
 		{
@@ -1524,7 +1524,7 @@ static void recordFrame(u32* pixels)
 			if(impl.video.frame % TIC80_FRAMERATE < TIC80_FRAMERATE / 2)
 			{
 				const u32* pal = tic_palette_blit(&impl.config->cart.bank0.palette);
-				drawRecordLabel(pixels, TIC80_WIDTH-24, 8, &pal[tic_color_red]);
+				drawRecordLabel(pixels, TIC80_WIDTH-24, 8, &pal[tic_color_6]);
 			}
 
 			impl.video.frame++;
@@ -1552,10 +1552,10 @@ static void drawPopup()
 		else if(impl.popup.counter >= (POPUP_DUR - Dur))
 			anim = (((POPUP_DUR - Dur) - impl.popup.counter) * (TIC_FONT_HEIGHT+1) / Dur);
 
-		impl.studio.tic->api.rect(impl.studio.tic, 0, anim, TIC80_WIDTH, TIC_FONT_HEIGHT+1, (tic_color_red));
+		impl.studio.tic->api.rect(impl.studio.tic, 0, anim, TIC80_WIDTH, TIC_FONT_HEIGHT+1, (tic_color_6));
 		impl.studio.tic->api.text(impl.studio.tic, impl.popup.message, 
 			(s32)(TIC80_WIDTH - strlen(impl.popup.message)*TIC_FONT_WIDTH)/2,
-			anim + 1, (tic_color_white), false);
+			anim + 1, (tic_color_12), false);
 	}
 }
 

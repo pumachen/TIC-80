@@ -39,10 +39,10 @@
 #include <emscripten.h>
 #endif
 
-#define CONSOLE_CURSOR_COLOR ((tic_color_red))
-#define CONSOLE_BACK_TEXT_COLOR ((tic_color_dark_gray))
-#define CONSOLE_FRONT_TEXT_COLOR ((tic_color_white))
-#define CONSOLE_ERROR_TEXT_COLOR ((tic_color_red))
+#define CONSOLE_CURSOR_COLOR ((tic_color_6))
+#define CONSOLE_BACK_TEXT_COLOR ((tic_color_3))
+#define CONSOLE_FRONT_TEXT_COLOR ((tic_color_12))
+#define CONSOLE_ERROR_TEXT_COLOR ((tic_color_6))
 #define CONSOLE_CURSOR_BLINK_PERIOD (TIC80_FRAMERATE)
 #define CONSOLE_CURSOR_DELAY (TIC80_FRAMERATE / 2)
 #define CONSOLE_BUFFER_WIDTH (STUDIO_TEXT_BUFFER_WIDTH)
@@ -2272,10 +2272,10 @@ static void printTable(Console* console, const char* text)
 			case '+':
 			case '|':
 			case '-':
-				color = (tic_color_gray);
+				color = (tic_color_7);
 				break;
 			default:
-				color = (tic_color_white);
+				color = (tic_color_12);
 			}
 
 			*(console->colorBuffer + offset) = color;
@@ -2642,7 +2642,7 @@ static void processConsoleCommand(Console* console)
 
 static void error(Console* console, const char* info)
 {
-	consolePrint(console, info ? info : "unknown error", (tic_color_red));
+	consolePrint(console, info ? info : "unknown error", (tic_color_6));
 	commandDone(console);
 }
 
@@ -2741,7 +2741,7 @@ static void checkNewVersion(Console* console)
 	{
 		char msg[FILENAME_MAX] = {0};
 		sprintf(msg, "\n A new version %i.%i.%i is available.\n", version.major, version.minor, version.patch);
-		consolePrint(console, msg, (tic_color_light_green));
+		consolePrint(console, msg, (tic_color_11));
 	}
 }
 

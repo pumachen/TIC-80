@@ -48,7 +48,7 @@ static void history(Code* code)
 static void drawStatus(Code* code)
 {
 	const s32 Height = TIC_FONT_HEIGHT + 1;
-	code->tic->api.rect(code->tic, 0, TIC80_HEIGHT - Height, TIC80_WIDTH, Height, (tic_color_white));
+	code->tic->api.rect(code->tic, 0, TIC80_HEIGHT - Height, TIC80_WIDTH, Height, (tic_color_12));
 	code->tic->api.fixed_text(code->tic, code->status, 0, TIC80_HEIGHT - TIC_FONT_HEIGHT, getConfig()->theme.code.bg, false);
 }
 
@@ -828,7 +828,7 @@ static void drawFilterMatch(Code *code, s32 x, s32 y, const char* buffer, const 
 	const char *f = filter;
 	while(*b)
 	{
-		u8 color = (*b == *f) ? (tic_color_black) : (tic_color_white);
+		u8 color = (*b == *f) ? (tic_color_0) : (tic_color_12);
 		code->tic->api.draw_char(code->tic, *b, x, y, color, false);
 		x += TIC_FONT_WIDTH;
 		if(*b == *f)
@@ -1130,10 +1130,10 @@ static void drawPopupBar(Code* code, const char* title)
 {
 	enum {TextY = TOOLBAR_SIZE + 1};
 
-	code->tic->api.rect(code->tic, 0, TOOLBAR_SIZE, TIC80_WIDTH, TIC_FONT_HEIGHT + 1, (tic_color_blue));
-	code->tic->api.fixed_text(code->tic, title, 0, TextY, (tic_color_white), false);
+	code->tic->api.rect(code->tic, 0, TOOLBAR_SIZE, TIC80_WIDTH, TIC_FONT_HEIGHT + 1, (tic_color_8));
+	code->tic->api.fixed_text(code->tic, title, 0, TextY, (tic_color_12), false);
 
-	code->tic->api.fixed_text(code->tic, code->popup.text, (s32)strlen(title)*TIC_FONT_WIDTH, TextY, (tic_color_white), false);
+	code->tic->api.fixed_text(code->tic, code->popup.text, (s32)strlen(title)*TIC_FONT_WIDTH, TextY, (tic_color_12), false);
 
 	drawCursor(code, (s32)(strlen(title) + strlen(code->popup.text)) * TIC_FONT_WIDTH, TextY, ' ');
 }
@@ -1306,7 +1306,7 @@ static void drawOutlineBar(Code* code, s32 x, s32 y)
 		}
 	}
 
-	code->tic->api.rect(code->tic, rect.x-1, rect.y, rect.w+1, rect.h, (tic_color_blue));
+	code->tic->api.rect(code->tic, rect.x-1, rect.y, rect.w+1, rect.h, (tic_color_8));
 
 	OutlineItem* ptr = code->outline.items;
 
@@ -1321,7 +1321,7 @@ static void drawOutlineBar(Code* code, s32 x, s32 y)
 	if(ptr->pos)
 	{
 		code->tic->api.rect(code->tic, rect.x - 1, rect.y + code->outline.index*STUDIO_TEXT_HEIGHT,
-			rect.w + 1, TIC_FONT_HEIGHT + 1, (tic_color_red));
+			rect.w + 1, TIC_FONT_HEIGHT + 1, (tic_color_6));
 		while(ptr->pos)
 		{
 			strncpy(buffer, ptr->name, sizeof(buffer));
@@ -1334,7 +1334,7 @@ static void drawOutlineBar(Code* code, s32 x, s32 y)
 			y += STUDIO_TEXT_HEIGHT;
 		}
 	}
-	else code->tic->api.fixed_text(code->tic, "(empty)", x, y, (tic_color_white), false);
+	else code->tic->api.fixed_text(code->tic, "(empty)", x, y, (tic_color_12), false);
 }
 
 static void textOutlineTick(Code* code)
@@ -1412,12 +1412,12 @@ static void drawFontButton(Code* code, s32 x, s32 y)
 	}
 
 
-	tic->api.draw_char(tic, 'F', x, y, over ? tic_color_dark_gray : tic_color_light_blue, code->altFont);
+	tic->api.draw_char(tic, 'F', x, y, over ? tic_color_3 : tic_color_10, code->altFont);
 }
 
 static void drawCodeToolbar(Code* code)
 {
-	code->tic->api.rect(code->tic, 0, 0, TIC80_WIDTH, TOOLBAR_SIZE, (tic_color_white));
+	code->tic->api.rect(code->tic, 0, 0, TIC80_WIDTH, TOOLBAR_SIZE, (tic_color_12));
 
 	static const u8 Icons[] =
 	{
@@ -1494,9 +1494,9 @@ static void drawCodeToolbar(Code* code)
 
 		bool active = i == code->mode - TEXT_EDIT_MODE  && i != 0;
 		if(active)
-			code->tic->api.rect(code->tic, rect.x, rect.y, Size, Size, (tic_color_blue));
+			code->tic->api.rect(code->tic, rect.x, rect.y, Size, Size, (tic_color_8));
 
-		drawBitIcon(rect.x, rect.y, Icons + i*BITS_IN_BYTE, active ? (tic_color_white) : (over ? (tic_color_dark_gray) : (tic_color_light_blue)));
+		drawBitIcon(rect.x, rect.y, Icons + i*BITS_IN_BYTE, active ? (tic_color_12) : (over ? (tic_color_3) : (tic_color_10)));
 	}
 
 	drawFontButton(code, TIC80_WIDTH - (Count+2) * Size, 1);
