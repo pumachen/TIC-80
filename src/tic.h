@@ -26,8 +26,6 @@
 #include "defines.h"
 #include "version.h"
 
-#define TIC_VERSION_STATUS "-dev"
-
 #if defined(TIC80_PRO)
 #define TIC_VERSION_POST " Pro"
 #else

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.3)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 80)
 set(VERSION_REVISION 0)
+set(VERSION_STATUS "-dev")
 
 find_package(Git)
 if(Git_FOUND)
@@ -27,12 +28,10 @@ if(Git_FOUND)
     endif()
 endif()
 
-message("VERSION_REVISION: ${VERSION_REVISION}")
-
 project(TIC-80 VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION} LANGUAGES C CXX)
 message("Building for target : ${CMAKE_SYSTEM_NAME}")
 
-message("PROJECT_VERSION: ${PROJECT_VERSION}")
+message("PROJECT_VERSION: ${PROJECT_VERSION}${VERSION_STATUS}")
 
 configure_file("${PROJECT_SOURCE_DIR}/version.h.in" "${CMAKE_CURRENT_BINARY_DIR}/version.h")
 
