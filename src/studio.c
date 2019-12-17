@@ -498,7 +498,6 @@ static void drawExtrabar(tic_mem* tic)
 		0b00000000,
 	};
 
-	static const s32 Colors[] = {8, 9, 6, 5, 5};
 	static const StudioEvent Events[] = {TIC_TOOLBAR_CUT, TIC_TOOLBAR_COPY, TIC_TOOLBAR_PASTE,	TIC_TOOLBAR_UNDO, TIC_TOOLBAR_REDO};
 	static const char* Tips[] = {"CUT [ctrl+x]", "COPY [ctrl+c]", "PASTE [ctrl+v]", "UNDO [ctrl+z]", "REDO [ctrl+y]"};
 
@@ -506,20 +505,20 @@ static void drawExtrabar(tic_mem* tic)
 	{
 		tic_rect rect = {x + i*Size, y, Size, Size};
 
-		u8 bgcolor = (tic_color_12);
-		u8 color = (tic_color_10);
+		u8 bgcolor = tic_color_12;
+		u8 color = tic_color_13;
 
 		if(checkMousePos(&rect))
 		{
 			setCursor(tic_cursor_hand);
 
-			color = Colors[i];
+			color = tic_color_2 + i;
 			showTooltip(Tips[i]);
 
 			if(checkMouseDown(&rect, tic_mouse_left))
 			{
 				bgcolor = color;
-				color = (tic_color_12);
+				color = tic_color_12;
 			}
 			else if(checkMouseClick(&rect, tic_mouse_left))
 			{
@@ -660,10 +659,10 @@ static void drawBankIcon(s32 x, s32 y)
 
 #endif
 
-void drawToolbar(tic_mem* tic, u8 color, bool bg)
+void drawToolbar(tic_mem* tic, bool bg)
 {
 	if(bg)
-		impl.studio.tic->api.rect(tic, 0, 0, TIC80_WIDTH, TOOLBAR_SIZE, (tic_color_12));
+		impl.studio.tic->api.rect(tic, 0, 0, TIC80_WIDTH, TOOLBAR_SIZE, tic_color_12);
 
 	static const u8 TabIcon[] =
 	{
@@ -752,12 +751,12 @@ void drawToolbar(tic_mem* tic, u8 color, bool bg)
 		if(getStudioMode() == Modes[i]) mode = i;
 
 		if(mode == i)
-			drawBitIcon(i * Size, 0, TabIcon, color);
+			drawBitIcon(i * Size, 0, TabIcon, tic_color_14);
 
 		if(mode == i)
 			drawBitIcon(i * Size, 1, Icons + i * BITS_IN_BYTE, tic_color_0);
 
-		drawBitIcon(i * Size, 0, Icons + i * BITS_IN_BYTE, mode == i ? (tic_color_12) : (over ? (tic_color_3) : (tic_color_10)));
+		drawBitIcon(i * Size, 0, Icons + i * BITS_IN_BYTE, mode == i ? tic_color_12 : (over ? tic_color_14 : tic_color_13));
 	}
 
 	if(mode >= 0) drawExtrabar(tic);
@@ -782,11 +781,11 @@ void drawToolbar(tic_mem* tic, u8 color, bool bg)
 	{
 		if(strlen(impl.tooltip.text))
 		{
-			impl.studio.tic->api.text(tic, impl.tooltip.text, TextOffset, 1, (tic_color_0), false);
+			impl.studio.tic->api.text(tic, impl.tooltip.text, TextOffset, 1, tic_color_14, false);
 		}
 		else
 		{
-			impl.studio.tic->api.text(tic, Names[mode], TextOffset, 1, (tic_color_3), false);
+			impl.studio.tic->api.text(tic, Names[mode], TextOffset, 1, tic_color_15, false);
 		}
 	}
 }
@@ -1552,10 +1551,10 @@ static void drawPopup()
 		else if(impl.popup.counter >= (POPUP_DUR - Dur))
 			anim = (((POPUP_DUR - Dur) - impl.popup.counter) * (TIC_FONT_HEIGHT+1) / Dur);
 
-		impl.studio.tic->api.rect(impl.studio.tic, 0, anim, TIC80_WIDTH, TIC_FONT_HEIGHT+1, (tic_color_6));
+		impl.studio.tic->api.rect(impl.studio.tic, 0, anim, TIC80_WIDTH, TIC_FONT_HEIGHT+1, tic_color_6);
 		impl.studio.tic->api.text(impl.studio.tic, impl.popup.message, 
 			(s32)(TIC80_WIDTH - strlen(impl.popup.message)*TIC_FONT_WIDTH)/2,
-			anim + 1, (tic_color_12), false);
+			anim + 1, tic_color_12, false);
 	}
 }
 

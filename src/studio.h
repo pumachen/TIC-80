@@ -43,7 +43,7 @@
 #define STUDIO_TEXT_BUFFER_WIDTH (TIC80_WIDTH / STUDIO_TEXT_WIDTH)
 #define STUDIO_TEXT_BUFFER_HEIGHT (TIC80_HEIGHT / STUDIO_TEXT_HEIGHT)
 
-#define TIC_COLOR_BG 	(tic_color_0)
+#define TIC_COLOR_BG tic_color_0
 #define DEFAULT_CHMOD 0755
 
 #define CONFIG_TIC "config " TIC_VERSION_LABEL ".tic"
@@ -96,7 +96,7 @@ bool checkMousePos(const tic_rect* rect);
 bool checkMouseClick(const tic_rect* rect, tic_mouse_btn button);
 bool checkMouseDown(const tic_rect* rect, tic_mouse_btn button);
 
-void drawToolbar(tic_mem* tic, u8 color, bool bg);
+void drawToolbar(tic_mem* tic, bool bg);
 void drawBitIcon(s32 x, s32 y, const u8* ptr, u8 color);
 
 void studioRomLoaded();

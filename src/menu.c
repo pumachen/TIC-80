@@ -111,16 +111,16 @@ static void drawDialog(Menu* menu)
 
 	rect = getRect(menu);
 
-	tic->api.rect(tic, rect.x, rect.y, rect.w, rect.h, (tic_color_8));
-	tic->api.rect_border(tic, rect.x, rect.y, rect.w, rect.h, (tic_color_12));
-	tic->api.line(tic, rect.x, rect.y+DIALOG_HEIGHT, rect.x+DIALOG_WIDTH-1, rect.y+DIALOG_HEIGHT, (tic_color_0));
-	tic->api.rect(tic, rect.x, rect.y-(TOOLBAR_SIZE-2), rect.w, TOOLBAR_SIZE-2, (tic_color_12));
-	tic->api.line(tic, rect.x+1, rect.y-(TOOLBAR_SIZE-1), rect.x+DIALOG_WIDTH-2, rect.y-(TOOLBAR_SIZE-1), (tic_color_12));
+	tic->api.rect(tic, rect.x, rect.y, rect.w, rect.h, tic_color_8);
+	tic->api.rect_border(tic, rect.x, rect.y, rect.w, rect.h, tic_color_12);
+	tic->api.line(tic, rect.x, rect.y+DIALOG_HEIGHT, rect.x+DIALOG_WIDTH-1, rect.y+DIALOG_HEIGHT, tic_color_0);
+	tic->api.rect(tic, rect.x, rect.y-(TOOLBAR_SIZE-2), rect.w, TOOLBAR_SIZE-2, tic_color_12);
+	tic->api.line(tic, rect.x+1, rect.y-(TOOLBAR_SIZE-1), rect.x+DIALOG_WIDTH-2, rect.y-(TOOLBAR_SIZE-1), tic_color_12);
 
 	{
 		static const char Label[] = "GAME MENU";
 		s32 size = tic->api.text(tic, Label, 0, -TIC_FONT_HEIGHT, 0, false);
-		tic->api.text(tic, Label, rect.x + (DIALOG_WIDTH - size)/2, rect.y-(TOOLBAR_SIZE-2), (tic_color_7), false);
+		tic->api.text(tic, Label, rect.x + (DIALOG_WIDTH - size)/2, rect.y-(TOOLBAR_SIZE-2), tic_color_7, false);
 	}
 
 	{
@@ -150,9 +150,9 @@ static void drawTabDisabled(Menu* menu, s32 x, s32 y, s32 id)
 		}
 	}
 
-	tic->api.rect(tic, x, y-1, Width, Height+1, (tic_color_3));
-	tic->api.pixel(tic, x, y+Height-1, (tic_color_8));
-	tic->api.pixel(tic, x+Width-1, y+Height-1, (tic_color_8));
+	tic->api.rect(tic, x, y-1, Width, Height+1, tic_color_3);
+	tic->api.pixel(tic, x, y+Height-1, tic_color_8);
+	tic->api.pixel(tic, x+Width-1, y+Height-1, tic_color_8);
 
 	{
 		char buf[] = "#1";
@@ -166,15 +166,15 @@ static void drawTab(Menu* menu, s32 x, s32 y, s32 id)
 	enum{Width = 15, Height = 7};
 	tic_mem* tic = menu->tic;
 
-	tic->api.rect(tic, x, y-2, Width, Height+2, (tic_color_12));
-	tic->api.pixel(tic, x, y+Height-1, (tic_color_0));
-	tic->api.pixel(tic, x+Width-1, y+Height-1, (tic_color_0));
-	tic->api.rect(tic, x+1, y+Height, Width-2 , 1, (tic_color_0));
+	tic->api.rect(tic, x, y-2, Width, Height+2, tic_color_12);
+	tic->api.pixel(tic, x, y+Height-1, tic_color_0);
+	tic->api.pixel(tic, x+Width-1, y+Height-1, tic_color_0);
+	tic->api.rect(tic, x+1, y+Height, Width-2 , 1, tic_color_0);
 
 	{
 		char buf[] = "#1";
 		sprintf(buf, "#%i", id+1);
-		tic->api.fixed_text(tic, buf, x+2, y, (tic_color_7), false);
+		tic->api.fixed_text(tic, buf, x+2, y, tic_color_7, false);
 	}
 }
 
@@ -230,12 +230,12 @@ static void drawGamepadSetupTabs(Menu* menu, s32 x, s32 y)
 	enum{Width = 90, Height = 41, Tabs = TIC_GAMEPADS, TabWidth = 16};
 	tic_mem* tic = menu->tic;
 
-	tic->api.rect(tic, x, y, Width, Height, (tic_color_12));
-	tic->api.pixel(tic, x, y, (tic_color_8));
-	tic->api.pixel(tic, x+Width-1, y, (tic_color_8));
-	tic->api.pixel(tic, x, y+Height-1, (tic_color_0));
-	tic->api.pixel(tic, x+Width-1, y+Height-1, (tic_color_0));
-	tic->api.rect(tic, x+1, y+Height, Width-2 , 1, (tic_color_0));
+	tic->api.rect(tic, x, y, Width, Height, tic_color_12);
+	tic->api.pixel(tic, x, y, tic_color_8);
+	tic->api.pixel(tic, x+Width-1, y, tic_color_8);
+	tic->api.pixel(tic, x, y+Height-1, tic_color_0);
+	tic->api.pixel(tic, x+Width-1, y+Height-1, tic_color_0);
+	tic->api.rect(tic, x+1, y+Height, Width-2 , 1, tic_color_0);
 
 	for(s32 i = 0; i < Tabs; i++)
 		(menu->gamepad.tab == i ? drawTab : drawTabDisabled)(menu, x + 73 - i*TabWidth, y + 43, i);
@@ -280,11 +280,11 @@ static void drawGamepadMenu(Menu* menu)
 
 	if(down)
 	{
-		tic->api.text(tic, Label, rect.x, rect.y+1, (tic_color_10), false);
+		tic->api.text(tic, Label, rect.x, rect.y+1, tic_color_10, false);
 	}
 	else
 	{
-		tic->api.text(tic, Label, rect.x, rect.y+1, (tic_color_0), false);
+		tic->api.text(tic, Label, rect.x, rect.y+1, tic_color_0, false);
 		tic->api.text(tic, Label, rect.x, rect.y, (over ? tic_color_10 : tic_color_12), false);
 	}
 
@@ -301,8 +301,8 @@ static void drawGamepadMenu(Menu* menu)
 			0b00000000,
 		};
 
-		drawBitIcon(rect.x-7, rect.y+1, Icon, (tic_color_0));
-		drawBitIcon(rect.x-7, rect.y, Icon, (tic_color_12));
+		drawBitIcon(rect.x-7, rect.y+1, Icon, tic_color_0);
+		drawBitIcon(rect.x-7, rect.y, Icon, tic_color_12);
 	}
 
 	drawGamepadSetupTabs(menu, dlgRect.x+25, dlgRect.y+4);
@@ -346,11 +346,11 @@ static void drawMainMenu(Menu* menu)
 
 			if(down)
 			{
-				tic->api.text(tic, Rows[i], label.x, label.y+1, (tic_color_10), false);
+				tic->api.text(tic, Rows[i], label.x, label.y+1, tic_color_10, false);
 			}
 			else
 			{
-				tic->api.text(tic, Rows[i], label.x, label.y+1, (tic_color_0), false);
+				tic->api.text(tic, Rows[i], label.x, label.y+1, tic_color_0, false);
 				tic->api.text(tic, Rows[i], label.x, label.y, (over ? tic_color_10 : tic_color_12), false);
 			}
 
@@ -368,8 +368,8 @@ static void drawMainMenu(Menu* menu)
 					0b00000000,
 				};
 
-				drawBitIcon(label.x-7, label.y+1, Icon, (tic_color_0));
-				drawBitIcon(label.x-7, label.y, Icon, (tic_color_12));
+				drawBitIcon(label.x-7, label.y+1, Icon, tic_color_0);
+				drawBitIcon(label.x-7, label.y, Icon, tic_color_12);
 			}
 		}
 	}
