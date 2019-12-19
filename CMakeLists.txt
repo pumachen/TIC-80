@@ -650,30 +650,22 @@ set(TIC80LIB_SRC
 	${TIC80LIB_DIR}/net.c
 )
 
-set(TIC80_OUTPUTS tic80)
+set(TIC80_OUTPUT tic80)
 
-if(BUILD_PRO)
-	list(APPEND TIC80_OUTPUTS tic80pro)
+add_library(${TIC80_OUTPUT}lib STATIC ${TIC80LIB_SRC} ${DEMO_CARTS_OUT})
+
+if(WIN32)
+	target_include_directories(${TIC80_OUTPUT}lib PRIVATE ${THIRDPARTY_DIR}/dirent/include)
 endif()
 
-foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
+target_include_directories(${TIC80_OUTPUT}lib PRIVATE 
+	${CMAKE_SOURCE_DIR}/include
+	${THIRDPARTY_DIR}/curl/include)
 
-	add_library(${TIC80_OUTPUT}lib STATIC ${TIC80LIB_SRC} ${DEMO_CARTS_OUT})
-
-	if(WIN32)
-		target_include_directories(${TIC80_OUTPUT}lib PRIVATE ${THIRDPARTY_DIR}/dirent/include)
-	endif()
-
-	target_include_directories(${TIC80_OUTPUT}lib PRIVATE 
-		${CMAKE_SOURCE_DIR}/include
-		${THIRDPARTY_DIR}/curl/include)
-
-	target_link_libraries(${TIC80_OUTPUT}lib tic80core zlib libcurl)
-
-endforeach()
+target_link_libraries(${TIC80_OUTPUT}lib tic80core zlib libcurl)
 
 if(BUILD_PRO)
-	target_compile_definitions(tic80prolib PRIVATE TIC80_PRO)
+	target_compile_definitions(tic80lib PRIVATE TIC80_PRO)
 endif()
 
 ################################
@@ -681,7 +673,6 @@ endif()
 ################################
 
 if(BUILD_SDL)
-foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 
 	set(TIC80_SRC ${CMAKE_SOURCE_DIR}/src/ext/file_dialog.c)
 
@@ -753,7 +744,6 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 		target_link_libraries(${TIC80_OUTPUT} ${GTK_LIBRARIES})
 	endif()
 
-endforeach()
 endif()
 
 ################################
@@ -761,7 +751,6 @@ endif()
 ################################
 
 if(BUILD_SOKOL)
-foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 
 	set(TIC80_SRC ${CMAKE_SOURCE_DIR}/src/ext/file_dialog.c)
 
@@ -813,5 +802,4 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 		target_link_libraries(${TIC80_OUTPUT}-sokol ${GTK_LIBRARIES})
 	endif()
 
-endforeach()
 endif()
