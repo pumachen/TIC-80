@@ -350,11 +350,11 @@ static void drawBrushSlider(Sprite* sprite, s32 x, s32 y)
 		sprite->tic->api.rect(sprite->tic, x + 6, offset + 2, Count - i, 1, tic_color_0);
 	}
 
-	sprite->tic->api.rect(sprite->tic, x+2, y+1, 1, Size*Count+1, (over ? tic_color_12 : tic_color_7));
+	sprite->tic->api.rect(sprite->tic, x+2, y+1, 1, Size*Count+1, (over ? tic_color_12 : tic_color_14));
 
 	s32 offset = y + (Count - sprite->brushSize)*(Size+1);
 	sprite->tic->api.rect(sprite->tic, x, offset, Size, Size, tic_color_0);
-	sprite->tic->api.rect(sprite->tic, x+1, offset+1, Size-2, Size-2, (over ? tic_color_12 : tic_color_7));
+	sprite->tic->api.rect(sprite->tic, x+1, offset+1, Size-2, Size-2, (over ? tic_color_12 : tic_color_14));
 }
 
 static void drawCanvas(Sprite* sprite, s32 x, s32 y)
@@ -639,13 +639,18 @@ static void drawFlags(Sprite* sprite, s32 x, s32 y)
 
 		sprite->tic->api.rect(sprite->tic, rect.x, rect.y, Size, Size, tic_color_0);
 
+		u8 flagColor = i + 2;
+
 		if(or & mask)
-			sprite->tic->api.pixel(sprite->tic, rect.x+2, rect.y+2, over ? tic_color_12 : tic_color_7);
-
+			sprite->tic->api.pixel(sprite->tic, rect.x+2, rect.y+2, over ? tic_color_12 : flagColor);
+		
 		if(and & mask)
-			sprite->tic->api.rect(sprite->tic, rect.x+1, rect.y+1, Size-2, Size-2, over ? tic_color_12 : tic_color_7);
+		{
+			sprite->tic->api.rect(sprite->tic, rect.x+1, rect.y+1, Size-2, Size-2, over ? tic_color_12 : flagColor);
+			sprite->tic->api.pixel(sprite->tic, rect.x+3, rect.y+1, tic_color_12);
+		}
 
-		sprite->tic->api.draw_char(sprite->tic, '0' + i, rect.x + (Size+2), rect.y, tic_color_3, true);
+		sprite->tic->api.draw_char(sprite->tic, '0' + i, rect.x + (Size+2), rect.y, tic_color_13, true);
 	}
 }
 
@@ -769,7 +774,7 @@ static void drawRGBSlider(Sprite* sprite, s32 x, s32 y, u8* value)
 		{
 			char buf[] = "FF";
 			sprintf(buf, "%02X", *value);
-			sprite->tic->api.text(sprite->tic, buf, x - 18, y - 2, tic_color_3, false);
+			sprite->tic->api.text(sprite->tic, buf, x - 18, y - 2, tic_color_13, false);
 		}
 	}
 
@@ -893,12 +898,12 @@ static void drawRGBTools(Sprite* sprite, s32 x, s32 y)
 
 		if(down)
 		{
-			drawBitIcon(rect.x, rect.y+1, Icon, tic_color_10);
+			drawBitIcon(rect.x, rect.y+1, Icon, tic_color_13);
 		}
 		else
 		{
 			drawBitIcon(rect.x, rect.y+1, Icon, tic_color_0);
-			drawBitIcon(rect.x, rect.y, Icon, (over ? tic_color_10 : tic_color_12));
+			drawBitIcon(rect.x, rect.y, Icon, (over ? tic_color_13 : tic_color_12));
 		}
 	}
 
@@ -938,12 +943,12 @@ static void drawRGBTools(Sprite* sprite, s32 x, s32 y)
 
 		if(down)
 		{
-			drawBitIcon(rect.x, rect.y+1, Icon, tic_color_10);
+			drawBitIcon(rect.x, rect.y+1, Icon, tic_color_13);
 		}
 		else
 		{
 			drawBitIcon(rect.x, rect.y+1, Icon, tic_color_0);
-			drawBitIcon(rect.x, rect.y, Icon, (over ? tic_color_10 : tic_color_12));
+			drawBitIcon(rect.x, rect.y, Icon, (over ? tic_color_13 : tic_color_12));
 		}
 	}
 }
@@ -1042,12 +1047,12 @@ static void drawPalette(Sprite* sprite, s32 x, s32 y)
 
 		if(sprite->editPalette || down)
 		{
-			drawBitIcon(rect.x, rect.y+1, Icon, (over ? tic_color_10 : tic_color_12));
+			drawBitIcon(rect.x, rect.y+1, Icon, (over ? tic_color_13 : tic_color_12));
 		}
 		else
 		{
 			drawBitIcon(rect.x, rect.y+1, Icon, tic_color_0);
-			drawBitIcon(rect.x, rect.y, Icon, (over ? tic_color_10 : tic_color_12));			
+			drawBitIcon(rect.x, rect.y, Icon, (over ? tic_color_13 : tic_color_12));			
 		}
 	}
 }
@@ -1304,12 +1309,12 @@ static void drawSpriteTools(Sprite* sprite, s32 x, s32 y)
 
 		if(pushed)
 		{
-			drawBitIcon(rect.x, y + 1, Icons + i*BITS_IN_BYTE, (over ? tic_color_10 : tic_color_12));
+			drawBitIcon(rect.x, y + 1, Icons + i*BITS_IN_BYTE, (over ? tic_color_13 : tic_color_12));
 		}
 		else
 		{
 			drawBitIcon(rect.x, y+1, Icons + i*BITS_IN_BYTE, tic_color_0);
-			drawBitIcon(rect.x, y, Icons + i*BITS_IN_BYTE, (over ? tic_color_10 : tic_color_12));
+			drawBitIcon(rect.x, y, Icons + i*BITS_IN_BYTE, (over ? tic_color_13 : tic_color_12));
 		}
 	}
 }
@@ -1398,12 +1403,12 @@ static void drawTools(Sprite* sprite, s32 x, s32 y)
 			drawBitIcon(rect.x, y - 4, Icon, tic_color_0);
 			drawBitIcon(rect.x, y - 5, Icon, tic_color_12);
 
-			drawBitIcon(rect.x, y + 1, Icons + i*BITS_IN_BYTE, (over ? tic_color_10 : tic_color_12));
+			drawBitIcon(rect.x, y + 1, Icons + i*BITS_IN_BYTE, (over ? tic_color_13 : tic_color_12));
 		}
 		else
 		{
 			drawBitIcon(rect.x, y+1, Icons + i*BITS_IN_BYTE, tic_color_0);
-			drawBitIcon(rect.x, y, Icons + i*BITS_IN_BYTE, (over ? tic_color_10 : tic_color_12));
+			drawBitIcon(rect.x, y, Icons + i*BITS_IN_BYTE, (over ? tic_color_13 : tic_color_12));
 		}
 	}
 
@@ -1611,7 +1616,7 @@ static void drawSpriteToolbar(Sprite* sprite)
 	{
 		static const char Label[] = "BG";
 		tic_rect rect = {TIC80_WIDTH - 2 * TIC_FONT_WIDTH - 2, 0, 2 * TIC_FONT_WIDTH + 1, TIC_SPRITESIZE-1};
-		sprite->tic->api.rect(sprite->tic, rect.x, rect.y, rect.w, rect.h, bg ? tic_color_0 : tic_color_7);
+		sprite->tic->api.rect(sprite->tic, rect.x, rect.y, rect.w, rect.h, bg ? tic_color_0 : tic_color_14);
 		sprite->tic->api.fixed_text(sprite->tic, Label, rect.x+1, rect.y+1, tic_color_12, false);
 
 		if(checkMousePos(&rect))
@@ -1631,7 +1636,7 @@ static void drawSpriteToolbar(Sprite* sprite)
 	{
 		static const char Label[] = "FG";
 		tic_rect rect = {TIC80_WIDTH - 4 * TIC_FONT_WIDTH - 4, 0, 2 * TIC_FONT_WIDTH + 1, TIC_SPRITESIZE-1};
-		sprite->tic->api.rect(sprite->tic, rect.x, rect.y, rect.w, rect.h, bg ? tic_color_7 : tic_color_0);
+		sprite->tic->api.rect(sprite->tic, rect.x, rect.y, rect.w, rect.h, bg ? tic_color_14 : tic_color_0);
 		sprite->tic->api.fixed_text(sprite->tic, Label, rect.x+1, rect.y+1, tic_color_12, false);
 
 		if(checkMousePos(&rect))
@@ -1672,7 +1677,7 @@ static void tick(Sprite* sprite)
 
 	processKeyboard(sprite);
 
-	sprite->tic->api.clear(sprite->tic, tic_color_7);
+	sprite->tic->api.clear(sprite->tic, tic_color_14);
 
 	drawCanvas(sprite, 24, 20);
 	drawMoveButtons(sprite);
