@@ -95,6 +95,9 @@ static void drawCode(Code* code, bool withCursor)
 		{
 			if(code->cursor.selection && pointer >= selection.start && pointer < selection.end)
 			{
+				if(getConfig()->theme.code.shadow)
+					code->tic->api.rect(code->tic, x, y, TIC_FONT_WIDTH+1, TIC_FONT_HEIGHT+1, tic_color_0);
+
 				code->tic->api.rect(code->tic, x-1, y-1, TIC_FONT_WIDTH+1, TIC_FONT_HEIGHT+1, getConfig()->theme.code.select);
 				code->tic->api.draw_char(code->tic, symbol, x, y, tic_color_15, code->altFont);
 			}
