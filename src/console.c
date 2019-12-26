@@ -103,28 +103,28 @@ static const char* ExeExt = ".exe";
 #endif
 
 #if defined(TIC_BUILD_WITH_LUA)
-static const char DefaultLuaTicPath[] = TIC_LOCAL "default.tic";
+static const char DefaultLuaTicPath[] = TIC_LOCAL_VERSION "default.tic";
 
 #	if defined(TIC_BUILD_WITH_MOON)
-static const char DefaultMoonTicPath[] = TIC_LOCAL "default_moon.tic";
+static const char DefaultMoonTicPath[] = TIC_LOCAL_VERSION "default_moon.tic";
 #	endif
 
 #	if defined(TIC_BUILD_WITH_FENNEL)
-static const char DefaultFennelTicPath[] = TIC_LOCAL "default_fennel.tic";
+static const char DefaultFennelTicPath[] = TIC_LOCAL_VERSION "default_fennel.tic";
 #	endif
 
 #endif /* defined(TIC_BUILD_WITH_LUA) */
 
 #if defined(TIC_BUILD_WITH_JS)
-static const char DefaultJSTicPath[] = TIC_LOCAL "default_js.tic";
+static const char DefaultJSTicPath[] = TIC_LOCAL_VERSION "default_js.tic";
 #endif
 
 #if defined(TIC_BUILD_WITH_WREN)
-static const char DefaultWrenTicPath[] = TIC_LOCAL "default_wren.tic";
+static const char DefaultWrenTicPath[] = TIC_LOCAL_VERSION "default_wren.tic";
 #endif
 
 #if defined(TIC_BUILD_WITH_SQUIRREL)
-static const char DefaultSquirrelTicPath[] = TIC_LOCAL "default_squirrel.tic";
+static const char DefaultSquirrelTicPath[] = TIC_LOCAL_VERSION "default_squirrel.tic";
 #endif	
 
 static const char* getName(const char* name, const char* ext)

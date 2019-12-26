@@ -81,7 +81,7 @@ static void initPMemName(Run* run)
 {
 	const char* data = strlen(run->tic->saveid) ? run->tic->saveid : run->tic->cart.code.data;
 	const char* md5 = data2md5(data, strlen(data));
-	strcpy(run->saveid, TIC_LOCAL);
+	strcpy(run->saveid, TIC_LOCAL_VERSION);
 	strcat(run->saveid, md5);
 }
 

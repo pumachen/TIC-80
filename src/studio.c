@@ -1857,6 +1857,8 @@ Studio* studioInit(s32 argc, char **argv, s32 samplerate, const char* folder, Sy
 	}
 
 	fsMakeDir(impl.fs, TIC_LOCAL);
+	fsMakeDir(impl.fs, TIC_LOCAL_VERSION);
+	
 	initConfig(impl.config, impl.studio.tic, impl.fs);
 
 	initKeymap();
