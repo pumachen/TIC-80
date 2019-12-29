@@ -99,7 +99,7 @@ static s32 drawWorldButton(Map* map, s32 x, s32 y)
 			setStudioMode(TIC_WORLD_MODE);
 	}
 
-	drawBitIcon(x, y, WorldIcon, over ? tic_color_3 : tic_color_10);
+	drawBitIcon(x, y, WorldIcon, over ? tic_color_14 : tic_color_13);
 
 	return x;
 
@@ -137,7 +137,7 @@ static s32 drawGridButton(Map* map, s32 x, s32 y)
 			map->canvas.grid = !map->canvas.grid;
 	}
 
-	drawBitIcon(x, y, GridIcon, map->canvas.grid ? tic_color_0 : over ? tic_color_3 : tic_color_10);
+	drawBitIcon(x, y, GridIcon, map->canvas.grid ? tic_color_0 : over ? tic_color_14 : tic_color_13);
 
 	return x;
 }
@@ -192,7 +192,7 @@ static s32 drawSheetButton(Map* map, s32 x, s32 y)
 		}
 	}
 
-	drawBitIcon(rect.x, rect.y, sheetVisible(map) ? UpIcon : DownIcon, over ? tic_color_3 : tic_color_10);
+	drawBitIcon(rect.x, rect.y, sheetVisible(map) ? UpIcon : DownIcon, over ? tic_color_14 : tic_color_13);
 
 	return x;
 }
@@ -218,7 +218,7 @@ static s32 drawToolButton(Map* map, s32 x, s32 y, const u8* Icon, s32 width, con
 		}
 	}
 
-	drawBitIcon(rect.x, rect.y, Icon, map->mode == mode ? tic_color_0 : over ? tic_color_3 : tic_color_10);
+	drawBitIcon(rect.x, rect.y, Icon, map->mode == mode ? tic_color_0 : over ? tic_color_14 : tic_color_13);
 
 	return x;
 }
@@ -328,7 +328,7 @@ static void drawTileIndex(Map* map, s32 x, s32 y)
 	{
 		char buf[] = "#999";
 		sprintf(buf, "#%03i", index);
-		map->tic->api.text(map->tic, buf, x, y, tic_color_10, false);
+		map->tic->api.text(map->tic, buf, x, y, tic_color_13, false);
 	}
 }
 
@@ -433,7 +433,7 @@ static void drawCursorPos(Map* map, s32 x, s32 y)
 	if(py <= TOOLBAR_SIZE) py = y + (TIC_SPRITESIZE + 3);
 
 	map->tic->api.rect(map->tic, px - 1, py - 1, width + 1, TIC_FONT_HEIGHT + 1, tic_color_12);
-	map->tic->api.text(map->tic, pos, px, py, tic_color_10, false);
+	map->tic->api.text(map->tic, pos, px, py, tic_color_13, false);
 }
 
 static void setMapSprite(Map* map, s32 x, s32 y)
