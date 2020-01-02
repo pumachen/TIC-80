@@ -22,7 +22,7 @@
 
 #include "dialog.h"
 
-static void drawButton(Dialog* dlg, const char* label, s32 x, s32 y, u8 color, u8 overColor, void(*callback)(Dialog* dlg), s32 id)
+static void drawButton(Dialog* dlg, const char* label, s32 x, s32 y, u8 color, void(*callback)(Dialog* dlg), s32 id)
 {
 	tic_mem* tic = dlg->tic;
 
@@ -58,7 +58,7 @@ static void drawButton(Dialog* dlg, const char* label, s32 x, s32 y, u8 color, u
 	}
 
 	s32 size = tic->api.text(tic, label, 0, -TIC_FONT_HEIGHT, 0, false);
-	tic->api.text(tic, label, rect.x + (BtnWidth - size+1)/2, rect.y + (down?3:2), over ? overColor : color, false);
+	tic->api.text(tic, label, rect.x + (BtnWidth - size+1)/2, rect.y + (down?3:2), color, false);
 
 	if(dlg->focus == id)
 	{
@@ -154,7 +154,7 @@ static void drawDialog(Dialog* dlg)
 			dlg->drag.active = false;
 	}
 
-	tic->api.rect(tic, rect.x, rect.y, rect.w, rect.h, tic_color_8);
+	tic->api.rect(tic, rect.x, rect.y, rect.w, rect.h, tic_color_15);
 	tic->api.rect_border(tic, rect.x, rect.y, rect.w, rect.h, tic_color_12);
 	tic->api.line(tic, rect.x, rect.y+Height, rect.x+Width-1, rect.y+Height, tic_color_0);
 	tic->api.rect(tic, rect.x, rect.y-(TOOLBAR_SIZE-2), rect.w, TOOLBAR_SIZE-2, tic_color_12);
@@ -163,7 +163,7 @@ static void drawDialog(Dialog* dlg)
 	{
 		static const char Label[] = "WARNING!";
 		s32 size = tic->api.text(tic, Label, 0, -TIC_FONT_HEIGHT, 0, false);
-		tic->api.text(tic, Label, rect.x + (Width - size)/2, rect.y-(TOOLBAR_SIZE-2), tic_color_7, false);
+		tic->api.text(tic, Label, rect.x + (Width - size)/2, rect.y-(TOOLBAR_SIZE-2), tic_color_15, false);
 	}
 
 	{
@@ -183,8 +183,8 @@ static void drawDialog(Dialog* dlg)
 		}
 	}
 
-	drawButton(dlg, "YES", rect.x + (Width/2 - 26), rect.y + 45, tic_color_1, tic_color_6, onYes, 0);
-	drawButton(dlg, "NO", rect.x + (Width/2 + 6), rect.y + 45, tic_color_5, tic_color_11, onNo, 1);
+	drawButton(dlg, "YES", rect.x + (Width/2 - 26), rect.y + 45, tic_color_2, onYes, 0);
+	drawButton(dlg, "NO", rect.x + (Width/2 + 6), rect.y + 45, tic_color_6, onNo, 1);
 }
 
 static void tick(Dialog* dlg)
