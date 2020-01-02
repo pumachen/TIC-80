@@ -1308,7 +1308,7 @@ static void drawTrackerChannel(Music* music, s32 x, s32 y, s32 channel)
 
 		if (i == music->tracker.row)
 		{
-			music->tic->api.rect(music->tic, x - 1, rowy - 1, Width, TIC_FONT_HEIGHT + 1, tic_color_1);
+			music->tic->api.rect(music->tic, x - 1, rowy - 1, Width, TIC_FONT_HEIGHT + 1, tic_color_15);
 		}
 
 		// draw selection
@@ -1318,7 +1318,7 @@ static void drawTrackerChannel(Music* music, s32 x, s32 y, s32 channel)
 			if (rect.h > 1 && i >= rect.y && i < rect.y + rect.h)
 			{
 				s32 sx = x - 1;
-				tic->api.rect(tic, sx, rowy - 1, CHANNEL_COLS * TIC_FONT_WIDTH + 1, TIC_FONT_HEIGHT + 1, tic_color_13);
+				tic->api.rect(tic, sx, rowy - 1, CHANNEL_COLS * TIC_FONT_WIDTH + 1, TIC_FONT_HEIGHT + 1, tic_color_14);
 			}
 		}
 
@@ -1361,7 +1361,7 @@ static void drawTrackerChannel(Music* music, s32 x, s32 y, s32 channel)
 				music->tic->api.draw_char(music->tic, sym, colx, rowy, colors[ColorIndexes[c]], false);
 			}
 		}
-		else music->tic->api.fixed_text(music->tic, rowStr, x, rowy, tic_color_15, false);
+		else music->tic->api.fixed_text(music->tic, rowStr, x, rowy, i == music->tracker.row ? tic_color_0 : tic_color_15, false);
 
 		if (i == music->tracker.row)
 		{
@@ -1383,7 +1383,7 @@ static void drawTumbler(Music* music, s32 x, s32 y, s32 index)
 {
 	tic_mem* tic = music->tic;
 
-	enum{Width=7, Height=3};
+	enum{On=36, Off = 52, Width=7, Height=3};
 	
 	tic_rect rect = {x, y, Width, Height};
 
@@ -1407,14 +1407,8 @@ static void drawTumbler(Music* music, s32 x, s32 y, s32 index)
 	drawEditPanel(music, x, y, Width, Height);
 	tic->api.rect(tic, x, y, Width, Height, tic_color_0);
 
-	if(music->tracker.patterns[index])
-	{
-		static const u8 Gradient[] = {7, 6, 5, 5, 5, 6, 7};
-
-		for(s32 i = 0; i < COUNT_OF(Gradient); i++)
-			tic->api.pixel(tic, x+i, y+1, Gradient[i]);
-	}
-	else tic->api.rect(tic, x+1, y+1, Width-2, 1, tic_color_15);
+	u8 color = tic_color_0;
+	tic->api.sprite(tic, &getConfig()->cart->bank0.tiles, music->tracker.patterns[index] ? On : Off, x, y, &color, 1);
 }
 
 static void drawTracker(Music* music, s32 x, s32 y)

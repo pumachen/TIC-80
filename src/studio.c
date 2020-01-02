@@ -1551,7 +1551,7 @@ static void drawPopup()
 		else if(impl.popup.counter >= (POPUP_DUR - Dur))
 			anim = (((POPUP_DUR - Dur) - impl.popup.counter) * (TIC_FONT_HEIGHT+1) / Dur);
 
-		impl.studio.tic->api.rect(impl.studio.tic, 0, anim, TIC80_WIDTH, TIC_FONT_HEIGHT+1, tic_color_6);
+		impl.studio.tic->api.rect(impl.studio.tic, 0, anim, TIC80_WIDTH, TIC_FONT_HEIGHT+1, tic_color_2);
 		impl.studio.tic->api.text(impl.studio.tic, impl.popup.message, 
 			(s32)(TIC80_WIDTH - strlen(impl.popup.message)*TIC_FONT_WIDTH)/2,
 			anim + 1, tic_color_12, false);

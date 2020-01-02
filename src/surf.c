@@ -185,7 +185,7 @@ static void drawTopToolbar(Surf* surf, s32 x, s32 y)
 
 	enum{Height = MENU_HEIGHT};
 
-	tic->api.rect(tic, x, y, TIC80_WIDTH, Height, tic_color_8);
+	tic->api.rect(tic, x, y, TIC80_WIDTH, Height, tic_color_14);
 	tic->api.rect(tic, x, y + Height, TIC80_WIDTH, 1, tic_color_0);
 	{
 		char label[FILENAME_MAX];
@@ -222,7 +222,7 @@ static void drawBottomToolbar(Surf* surf, s32 x, s32 y)
 
 	enum{Height = MENU_HEIGHT};
 
-	tic->api.rect(tic, x, y, TIC80_WIDTH, Height, tic_color_8);
+	tic->api.rect(tic, x, y, TIC80_WIDTH, Height, tic_color_14);
 	tic->api.rect(tic, x, y + Height, TIC80_WIDTH, 1, tic_color_0);
 	{
 		char label[FILENAME_MAX];
@@ -320,7 +320,7 @@ static void drawMenu(Surf* surf, s32 x, s32 y, bool bg)
 	}
 	else
 	{
-		tic->api.rect(tic, 0, y + (MENU_HEIGHT - AnimVar.menuHeight)/2, TIC80_WIDTH, AnimVar.menuHeight, tic_color_6);
+		tic->api.rect(tic, 0, y + (MENU_HEIGHT - AnimVar.menuHeight)/2, TIC80_WIDTH, AnimVar.menuHeight, tic_color_2);
 	}
 
 	for(s32 i = 0; i < surf->menu.count; i++)

@@ -29,6 +29,7 @@
 #define TEXT_CURSOR_BLINK_PERIOD TIC80_FRAMERATE
 #define TEXT_BUFFER_WIDTH STUDIO_TEXT_BUFFER_WIDTH
 #define TEXT_BUFFER_HEIGHT ((TIC80_HEIGHT - TOOLBAR_SIZE - STUDIO_TEXT_HEIGHT) / STUDIO_TEXT_HEIGHT)
+#define BOOKMARK_WIDTH 7
 
 struct OutlineItem
 {
@@ -50,6 +51,11 @@ static void drawStatus(Code* code)
 	const s32 Height = TIC_FONT_HEIGHT + 1;
 	code->tic->api.rect(code->tic, 0, TIC80_HEIGHT - Height, TIC80_WIDTH, Height, tic_color_12);
 	code->tic->api.fixed_text(code->tic, code->status, 0, TIC80_HEIGHT - TIC_FONT_HEIGHT, getConfig()->theme.code.bg, false);
+}
+
+static void drawBookmarks(Code* code)
+{
+	code->tic->api.rect(code->tic, 0, TOOLBAR_SIZE, BOOKMARK_WIDTH, TIC80_HEIGHT - TOOLBAR_SIZE, tic_color_14);
 }
 
 static inline s32 getFontWidth(Code* code)
@@ -75,6 +81,8 @@ static void drawCursor(Code* code, s32 x, s32 y, char symbol)
 
 static void drawCode(Code* code, bool withCursor)
 {
+	drawBookmarks(code);
+
 	s32 xStart = code->rect.x - code->scroll.x * (getFontWidth(code));
 	s32 x = xStart;
 	s32 y = code->rect.y - code->scroll.y * STUDIO_TEXT_HEIGHT;
@@ -1136,27 +1144,27 @@ static void textEditTick(Code* code)
 
 	code->tic->api.clear(code->tic, getConfig()->theme.code.bg);
 
-	drawCode(code, true);
+	drawCode(code, true);	
 	drawStatus(code);
 }
 
 static void drawPopupBar(Code* code, const char* title)
 {
-	enum {TextY = TOOLBAR_SIZE + 1};
+	enum {TextX = BOOKMARK_WIDTH, TextY = TOOLBAR_SIZE + 1};
 
 	code->tic->api.rect(code->tic, 0, TOOLBAR_SIZE, TIC80_WIDTH, TIC_FONT_HEIGHT + 1, tic_color_14);
 
 	if(getConfig()->theme.code.shadow)
-		code->tic->api.fixed_text(code->tic, title, 1, TextY+1, tic_color_0, false);
+		code->tic->api.fixed_text(code->tic, title, TextX+1, TextY+1, tic_color_0, false);
 
-	code->tic->api.fixed_text(code->tic, title, 0, TextY, tic_color_12, false);
+	code->tic->api.fixed_text(code->tic, title, TextX, TextY, tic_color_12, false);
 
 	if(getConfig()->theme.code.shadow)
-		code->tic->api.fixed_text(code->tic, code->popup.text, (s32)strlen(title)*TIC_FONT_WIDTH+1, TextY+1, tic_color_0, false);
+		code->tic->api.fixed_text(code->tic, code->popup.text, TextX+(s32)strlen(title)*TIC_FONT_WIDTH+1, TextY+1, tic_color_0, false);
 
-	code->tic->api.fixed_text(code->tic, code->popup.text, (s32)strlen(title)*TIC_FONT_WIDTH, TextY, tic_color_12, false);
+	code->tic->api.fixed_text(code->tic, code->popup.text, TextX+(s32)strlen(title)*TIC_FONT_WIDTH, TextY, tic_color_12, false);
 
-	drawCursor(code, (s32)(strlen(title) + strlen(code->popup.text)) * TIC_FONT_WIDTH, TextY, ' ');
+	drawCursor(code, TextX+(s32)(strlen(title) + strlen(code->popup.text)) * TIC_FONT_WIDTH, TextY, ' ');
 }
 
 static void updateFindCode(Code* code, char* pos)
@@ -1236,7 +1244,7 @@ static void textFindTick(Code* code)
 	code->tic->api.clear(code->tic, getConfig()->theme.code.bg);
 
 	drawCode(code, false);
-	drawPopupBar(code, " FIND:");
+	drawPopupBar(code, "FIND:");
 	drawStatus(code);
 }
 
@@ -1298,7 +1306,7 @@ static void textGoToTick(Code* code)
 			TIC80_WIDTH, TIC_FONT_HEIGHT+2, getConfig()->theme.code.select);
 
 	drawCode(code, false);
-	drawPopupBar(code, " GOTO:");
+	drawPopupBar(code, "GOTO:");
 	drawStatus(code);
 }
 
@@ -1411,7 +1419,7 @@ static void textOutlineTick(Code* code)
 	code->tic->api.clear(code->tic, getConfig()->theme.code.bg);
 
 	drawCode(code, false);
-	drawPopupBar(code, " FUNC:");
+	drawPopupBar(code, "FUNC:");
 	drawStatus(code);
 	drawOutlineBar(code, TIC80_WIDTH - 13 * TIC_FONT_WIDTH, 2*(TIC_FONT_HEIGHT+1));
 }
@@ -1594,7 +1602,7 @@ void initCode(Code* code, tic_mem* tic, tic_code* src)
 		.tick = tick,
 		.escape = escape,
 		.cursor = {{src->data, NULL, 0}, NULL, 0},
-		.rect = {0, TOOLBAR_SIZE + 1, TIC80_WIDTH, TIC80_HEIGHT - TOOLBAR_SIZE - TIC_FONT_HEIGHT - 1},
+		.rect = {BOOKMARK_WIDTH, TOOLBAR_SIZE + 1, TIC80_WIDTH, TIC80_HEIGHT - TOOLBAR_SIZE - TIC_FONT_HEIGHT - 1},
 		.scroll = {0, 0, {0, 0}, false},
 		.tickCounter = 0,
 		.history = NULL,

@@ -879,8 +879,8 @@ static void drawMapOvr(Map* map)
 		s32 screenScrollX = map->scroll.x % TIC80_WIDTH;
 		s32 screenScrollY = map->scroll.y % TIC80_HEIGHT;
 
-		tic->api.line(tic, 0, TIC80_HEIGHT - screenScrollY, TIC80_WIDTH, TIC80_HEIGHT - screenScrollY, tic_color_7);
-		tic->api.line(tic, TIC80_WIDTH - screenScrollX, 0, TIC80_WIDTH - screenScrollX, TIC80_HEIGHT, tic_color_7);
+		tic->api.line(tic, 0, TIC80_HEIGHT - screenScrollY, TIC80_WIDTH, TIC80_HEIGHT - screenScrollY, tic_color_14);
+		tic->api.line(tic, TIC80_WIDTH - screenScrollX, 0, TIC80_WIDTH - screenScrollX, TIC80_HEIGHT, tic_color_14);
 	}
 
 	if(!sheetVisible(map) && checkMousePos(&rect))
